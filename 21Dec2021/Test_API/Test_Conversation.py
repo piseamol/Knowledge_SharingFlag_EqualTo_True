@@ -16,75 +16,42 @@ def setup():
     yield
     print("Suite Tear Down - You can mention Clean Up Part here")
 
+@pytest.mark.Smoke ### This is a custom marker.
+def test_ConversationGet(setup):
+    headers = {
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDAxMzQ2OTIsImV4cCI6MTY0MDczOTQ5MiwianRpIjoicnhmREIwdHhKQ3JTIiwiYXBwbGljYXRpb25faWQiOiJiNjhlYjU1MS04YTY5LTQ1MWEtOWYxYS05NjFiOWY1MjIzMzYifQ.1xMX84PaEFOWsBK1kF5i8upqESNu85icT1h_tUZ2ozptwWtrTwJ4U-ddH4SX9nGCxVoQ56wLprpc_tYg2zMxJFHU7-yL0Ihref8ZW3OWnJf3CJLc8f-GwLC8AoWVri7MnkHZGnpn67mP4EGHK-6Gp1czKA0GpAkXK14U_XRT_jaB1_XQbAoKODsRPYCGodAJq2d-FLquB5wkIWuIHY-eJMKu3KJdKxoBxrIgSyN3SlUkINuyXzP4DcA0KTlUTk6OGgn9Ogild2Cee1xoqH60oVsf34kw2zsOYm1gnCRRhH0YHqIvKcZik9pXO5mbV-FEUDAZ5U1xn_UZOpNmWmQaCw',
+    }
+
+    response = requests.get('https://api.nexmo.com/v0.1/conversations', headers=headers)
+    print(response)
+    assert response.status_code == 200, "Got the 200 response code"
 
 @pytest.mark.Smoke ### This is a custom marker.
-def Test_ConversationGet():
-    cookies = {
-        'BCSI-CS-366981c10c8e7095': '1',
-    }
+def test_ConversationPost(setup):
+    import requests
 
     headers = {
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDAxMDI2MDksImV4cCI6MTY0MDEyNDIwOSwianRpIjoiRzJyUE9yUlBUY2NFIiwiYXBwbGljYXRpb25faWQiOiJiNjhlYjU1MS04YTY5LTQ1MWEtOWYxYS05NjFiOWY1MjIzMzYifQ.wVSFb0H5q4pkn7VCHMsChwbLKyh0LmLVoaEkTgj-NIEwSAu7J8OV0dpv_QKZVyhtXpiE1L0YgM3AnHgixtIocIytnDzcALgue4z1nONrQ6gvTaIHzBzKJeBiJg2tY3xAPQC6KMwwYLJ3ajufi6dYvkUpMdXMsNfLacLjBNqnuBAFEXjXu-EoTHdW6NDVqoJFPzPWP1QwEouT4Om3bTr-40WjNPH1xyfRKcFQp_GL49YYxOkwb2QsO-O0Y5WASKmE6cctqd46BgmcJvOC37TRobgh-y1sfOzwQNqp_jOmfL2JIgB0GrwaNrP0wDupXGvDhmzqp3_E4GXrvcBMf9GDiQ',
-        'Content-Type': 'text/plain',
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDAxMzQ2OTIsImV4cCI6MTY0MDczOTQ5MiwianRpIjoicnhmREIwdHhKQ3JTIiwiYXBwbGljYXRpb25faWQiOiJiNjhlYjU1MS04YTY5LTQ1MWEtOWYxYS05NjFiOWY1MjIzMzYifQ.1xMX84PaEFOWsBK1kF5i8upqESNu85icT1h_tUZ2ozptwWtrTwJ4U-ddH4SX9nGCxVoQ56wLprpc_tYg2zMxJFHU7-yL0Ihref8ZW3OWnJf3CJLc8f-GwLC8AoWVri7MnkHZGnpn67mP4EGHK-6Gp1czKA0GpAkXK14U_XRT_jaB1_XQbAoKODsRPYCGodAJq2d-FLquB5wkIWuIHY-eJMKu3KJdKxoBxrIgSyN3SlUkINuyXzP4DcA0KTlUTk6OGgn9Ogild2Cee1xoqH60oVsf34kw2zsOYm1gnCRRhH0YHqIvKcZik9pXO5mbV-FEUDAZ5U1xn_UZOpNmWmQaCw',
+        'Content-Type': 'application/json',
     }
 
-    data = {
-        'api_key': '7e3a658f',
-        'api_secret': 'VliqmFeHM7R4L8Md',
-        'from': 'AcmeInc',
-        'to': '447700900000',
-        'text': 'Hello World!',
-        'ttl': '900000',
-        'callback': 'https://example.com/sms-dlr',
-        'type': 'text',
-        'body': '0011223344556677',
-        'udh': '06050415811581',
-        'protocol-id': '127',
-        'title': 'Welcome',
-        'url': 'https://example.com',
-        'validity': '300000',
-        'client-ref': 'my-personal-reference',
-        'account-ref': 'customer1234',
-        'entity-id': '1101456324675322134',
-        'content-id': '1107457532145798767'
-    }
+    data = '{\n  "name": "customer_chat",\n  "display_name": "Customer Chat",\n  "image_url": "https://example.com/image.png",\n  "properties": {\n    "ttl": 60\n  }\n}'
 
-    response = requests.get('https://api.nexmo.com/v0.1/conversations', headers=headers, cookies=cookies, data=data)
+    response = requests.post('https://api.nexmo.com/v0.1/conversations', headers=headers, data=data)
     assert response.status_code == 200, "Passed"
-    print (response)
+    print(response)
 
-@pytest.mark.Smoke ### This is a custom marker.
-def Test_ConversationGet():
-    cookies = {
-        'BCSI-CS-366981c10c8e7095': '1',
-    }
-
+@pytest.mark.skip  ### This is a custom marker.
+def test_ConversationPut(setup):
     headers = {
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDAxMDI2MDksImV4cCI6MTY0MDEyNDIwOSwianRpIjoiRzJyUE9yUlBUY2NFIiwiYXBwbGljYXRpb25faWQiOiJiNjhlYjU1MS04YTY5LTQ1MWEtOWYxYS05NjFiOWY1MjIzMzYifQ.wVSFb0H5q4pkn7VCHMsChwbLKyh0LmLVoaEkTgj-NIEwSAu7J8OV0dpv_QKZVyhtXpiE1L0YgM3AnHgixtIocIytnDzcALgue4z1nONrQ6gvTaIHzBzKJeBiJg2tY3xAPQC6KMwwYLJ3ajufi6dYvkUpMdXMsNfLacLjBNqnuBAFEXjXu-EoTHdW6NDVqoJFPzPWP1QwEouT4Om3bTr-40WjNPH1xyfRKcFQp_GL49YYxOkwb2QsO-O0Y5WASKmE6cctqd46BgmcJvOC37TRobgh-y1sfOzwQNqp_jOmfL2JIgB0GrwaNrP0wDupXGvDhmzqp3_E4GXrvcBMf9GDiQ',
-        'Content-Type': 'text/plain',
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NDAxMzQ2OTIsImV4cCI6MTY0MDczOTQ5MiwianRpIjoicnhmREIwdHhKQ3JTIiwiYXBwbGljYXRpb25faWQiOiJiNjhlYjU1MS04YTY5LTQ1MWEtOWYxYS05NjFiOWY1MjIzMzYifQ.1xMX84PaEFOWsBK1kF5i8upqESNu85icT1h_tUZ2ozptwWtrTwJ4U-ddH4SX9nGCxVoQ56wLprpc_tYg2zMxJFHU7-yL0Ihref8ZW3OWnJf3CJLc8f-GwLC8AoWVri7MnkHZGnpn67mP4EGHK-6Gp1czKA0GpAkXK14U_XRT_jaB1_XQbAoKODsRPYCGodAJq2d-FLquB5wkIWuIHY-eJMKu3KJdKxoBxrIgSyN3SlUkINuyXzP4DcA0KTlUTk6OGgn9Ogild2Cee1xoqH60oVsf34kw2zsOYm1gnCRRhH0YHqIvKcZik9pXO5mbV-FEUDAZ5U1xn_UZOpNmWmQaCw',
+        'Content-Type': 'application/json',
     }
+    data = '{\n  "name": "customer_chat123",\n  "display_name": "Customer Chat",\n  "image_url": "https://example.com/image.png",\n  "properties": {\n    "ttl": 60\n  }\n}'
+    response = requests.put('https://api.nexmo.com/v0.1/conversations/CON-1db1eb63-76f0-43d3-9e17-5891fbf0643f',
+                            headers=headers, data=data)
 
-    data = {
-        'api_key': '7e3a658f',
-        'api_secret': 'VliqmFeHM7R4L8Md',
-        'from': 'AcmeInc',
-        'to': '447700900000',
-        'text': 'Hello World!',
-        'ttl': '900000',
-        'callback': 'https://example.com/sms-dlr',
-        'type': 'text',
-        'body': '0011223344556677',
-        'udh': '06050415811581',
-        'protocol-id': '127',
-        'title': 'Welcome',
-        'url': 'https://example.com',
-        'validity': '300000',
-        'client-ref': 'my-personal-reference',
-        'account-ref': 'customer1234',
-        'entity-id': '1101456324675322134',
-        'content-id': '1107457532145798767'
-    }
+    print(response)
+    assert response.status_code != 200, "Failed Put Operation Failed"
 
-    response = requests.get('https://api.nexmo.com/v0.1/conversations', headers=headers, cookies=cookies, data=data)
-    assert response.status_code == 200, "Passed"
-    print (response)
+### Run above testcases using command:  pytest -rA Test_Conversation.py --html="report.html" -s
